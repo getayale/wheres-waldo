@@ -1,0 +1,15 @@
+
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "rootDir": "./src/public/ts",
+    "outDir": "./src/public/js",
+    "strict": true,
+    "types": [],
+    "sourceMap": true,
+    "noEmitOnError": true
+  },
+  "include": ["src/public/ts/**/*.ts"]
+}

@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title><%= image.title %> | Where's Waldo?</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="/" class="logo">Where's Waldo?</a>
+
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/leaderboard">Leaderboard</a>
+    </div>
+  </nav>
+
+  <!-- Game Introduction -->
+  <main class="game-page">
+
+    <header class="game-intro">
+      <h1><%= image.title %></h1>
+
+      <p>
+        Welcome to the challenge! Find all the hidden characters
+        before the time runs out.
+      </p>
+    </header>
+
+    <!-- Game Rules -->
+    <section class="game-rules">
+
+      <h2>How to Play</h2>
+
+      <ul>
+        <li>Enter your name to start playing.</li>
+        <li>Select a character you want to find.</li>
+        <li>Click the character's location in the image.</li>
+        <li>Earn 100 points for every correct guess.</li>
+        <li>Find all characters within 5 minutes to win.</li>
+      </ul>
+
+    </section>
+
+    <!-- Characters to Find -->
+    <section class="game-characters">
+
+      <h2>Characters to Find</h2>
+
+      <div class="character-list">
+
+        <% image.characters.forEach((item) => { %>
+
+          <div class="character-item">
+            <span><%= item.character.name %></span>
+          </div>
+
+        <% }) %>
+
+      </div>
+
+    </section>
+
+    <!-- Game Preview -->
+    <section class="game-preview">
+
+      <h2>Game Image</h2>
+
+      <div class="game-image-container">
+        <img
+          src="<%= image.imageUrl %>"
+          alt="<%= image.title %>"
+          class="game-image"
+        >
+      </div>
+
+    </section>
+
+    <!-- Start Game Form -->
+    <section class="start-game-section">
+
+      <h2>Ready to Play?</h2>
+
+      <p>
+        Enter your name below and start your adventure!
+      </p>
+
+      <form
+        action="/games/<%= image.id %>/start"
+        method="POST"
+        class="start-game-form"
+      >
+
+        <label for="playerName">Your Name</label>
+
+        <input
+          type="text"
+          id="playerName"
+          name="playerName"
+          placeholder="Enter your name"
+          maxlength="40"
+          required
+        >
+
+        <button type="submit">
+          Start Game
+        </button>
+
+      </form>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Where's Waldo? All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

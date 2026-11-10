@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Leaderboard | Where's Waldo?</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="/" class="logo">Where's Waldo?</a>
+
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/#games">Play Game</a>
+      <a href="/leaderboard">Leaderboard</a>
+    </div>
+  </nav>
+
+  <!-- Leaderboard Header -->
+  <header class="leaderboard-hero">
+
+    <div class="leaderboard-hero-content">
+
+      <span class="hero-label">THE BEST OF THE BEST</span>
+
+      <h1>Leaderboard</h1>
+
+      <p>
+        Think you have sharp eyes?
+        See who found all the hidden characters in the shortest time.
+      </p>
+
+      <a href="/#games" class="hero-button">
+        Play Now
+      </a>
+
+    </div>
+
+  </header>
+
+  <!-- Leaderboard Section -->
+  <main class="leaderboard-page">
+
+    <section class="leaderboard-section">
+
+      <div class="section-heading">
+
+        <span>TOP PLAYERS</span>
+
+        <h2>Hall of Fame</h2>
+
+        <p>
+          The fastest players who successfully completed their challenges.
+        </p>
+
+      </div>
+
+      <% if (games && games.length > 0) { %>
+
+        <div class="leaderboard-table-container">
+
+          <table class="leaderboard-table">
+
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Player</th>
+                <th>Adventure</th>
+                <th>Score</th>
+                <th>Time</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <% games.forEach((game, index) => { %>
+
+                <tr>
+
+                  <td>
+                    <span class="leaderboard-rank">
+                      <% if (index === 0) { %>
+                        🥇
+                      <% } else if (index === 1) { %>
+                        🥈
+                      <% } else if (index === 2) { %>
+                        🥉
+                      <% } else { %>
+                        <%= index + 1 %>
+                      <% } %>
+                    </span>
+                  </td>
+
+                  <td>
+                    <strong>
+                      <%= game.playerName %>
+                    </strong>
+                  </td>
+
+                  <td>
+                    <%= game.image.title %>
+                  </td>
+
+                  <td>
+                    <strong class="leaderboard-score">
+                      <%= (game.foundCharacters.length * 100).toLocaleString() %>
+                    </strong>
+                  </td>
+
+                  <td>
+                    <strong class="leaderboard-time">
+                      <% const totalSeconds = Math.floor(game.durationMs / 1000); %>
+                      <% const minutes = Math.floor(totalSeconds / 60); %>
+                      <% const seconds = totalSeconds % 60; %>
+
+                      <%= String(minutes).padStart(2, "0") %>:<%= String(seconds).padStart(2, "0") %>
+                    </strong>
+                  </td>
+
+                  <td>
+                    <%= new Date(game.completedAt).toLocaleDateString() %>
+                  </td>
+
+                </tr>
+
+              <% }) %>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      <% } else { %>
+
+        <div class="leaderboard-empty">
+
+          <div class="empty-icon">🏆</div>
+
+          <h3>No Winners Yet!</h3>
+
+          <p>
+            Nobody has completed a challenge yet.
+            Be the first player to enter the Hall of Fame!
+          </p>
+
+          <a href="/#games" class="hero-button">
+            Start Playing
+          </a>
+
+        </div>
+
+      <% } %>
+
+    </section>
+
+    <!-- Call to Action -->
+    <section class="leaderboard-cta">
+
+      <h2>Can You Beat the Best?</h2>
+
+      <p>
+        Start a new adventure, find every character,
+        and claim your place at the top.
+      </p>
+
+      <a href="/#games" class="challenge-button">
+        Play a Game
+      </a>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+
+    <div class="footer-content">
+
+      <h3>Where's Waldo?</h3>
+
+      <p>
+        Test your observation skills and become a hidden-character champion.
+      </p>
+
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/#games">Play Game</a>
+        <a href="/leaderboard">Leaderboard</a>
+      </div>
+
+      <p class="copyright">
+        &copy; <%= new Date().getFullYear() %>
+        Where's Waldo? All rights reserved.
+      </p>
+
+    </div>
+
+  </footer>
+
+</body>
+
+</html>

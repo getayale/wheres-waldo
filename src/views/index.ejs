@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Where's Waldo? | Hidden Character Game</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="/" class="logo">Where's Waldo?</a>
+
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="#how-to-play">How to Play</a>
+      <a href="/leaderboard">Leaderboard</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+
+    <div class="hero-content">
+
+      <span class="hero-label">THE ULTIMATE HIDDEN OBJECT CHALLENGE</span>
+
+      <h1>
+        Can You Find <span>Everyone?</span>
+      </h1>
+
+      <p>
+        Explore busy scenes, search for hidden characters,
+        and test your observation skills.
+        You have only five minutes. Are you ready?
+      </p>
+
+      <a href="#games" class="hero-button">
+        Start Exploring
+      </a>
+
+    </div>
+
+  </header>
+
+  <!-- How to Play -->
+  <section class="how-to-play" id="how-to-play">
+
+    <div class="section-heading">
+      <span>GET STARTED</span>
+      <h2>How to Play</h2>
+      <p>Follow these simple steps to become a hidden-object champion.</p>
+    </div>
+
+    <div class="instructions-grid">
+
+      <article class="instruction-card">
+        <div class="instruction-number">01</div>
+        <h3>Choose a Scene</h3>
+        <p>
+          Select one of the available pictures
+          and prepare for the challenge.
+        </p>
+      </article>
+
+      <article class="instruction-card">
+        <div class="instruction-number">02</div>
+        <h3>Find Characters</h3>
+        <p>
+          Select a character and click their location
+          in the busy picture.
+        </p>
+      </article>
+
+      <article class="instruction-card">
+        <div class="instruction-number">03</div>
+        <h3>Earn Points</h3>
+        <p>
+          Get 100 points for each correct guess
+          and find everyone before time runs out.
+        </p>
+      </article>
+
+    </div>
+
+  </section>
+
+  <!-- Game Images -->
+  <section class="games-section" id="games">
+
+    <div class="section-heading">
+      <span>CHOOSE YOUR CHALLENGE</span>
+      <h2>Available Adventures</h2>
+      <p>
+        Pick a scene, start searching, and see how many
+        hidden characters you can find.
+      </p>
+    </div>
+
+    <div class="games-grid">
+
+      <% if (images.length > 0) { %>
+
+        <% images.forEach((image) => { %>
+
+          <article class="game-card">
+
+            <div class="game-card-image">
+
+              <img
+                src="<%= image.thumbnailUrl || image.imageUrl %>"
+                alt="<%= image.title %>"
+                loading="lazy"
+              >
+
+            </div>
+
+            <div class="game-card-content">
+
+              <h3><%= image.title %></h3>
+
+              <p>
+                Find all the hidden characters
+                in this adventure.
+              </p>
+
+              <a
+                href="/games/<%= image.id %>"
+                class="game-card-button"
+              >
+                Play This Game
+              </a>
+
+            </div>
+
+          </article>
+
+        <% }) %>
+
+      <% } else { %>
+
+        <div class="empty-games">
+          <h3>No Adventures Available</h3>
+          <p>Please check back later for new challenges.</p>
+        </div>
+
+      <% } %>
+
+    </div>
+
+  </section>
+
+  <!-- Game Rules -->
+  <section class="game-challenge">
+
+    <div class="challenge-content">
+
+      <h2>Think You Have Sharp Eyes?</h2>
+
+      <p>
+        You have five minutes to find every hidden character.
+        Every correct answer earns 100 points.
+        Challenge yourself and compete for the fastest time!
+      </p>
+
+      <a href="#games" class="challenge-button">
+        Choose Your Adventure
+      </a>
+
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <footer>
+
+    <div class="footer-content">
+
+      <h3>Where's Waldo?</h3>
+
+      <p>
+        A fun hidden-character game that challenges
+        your observation and attention to detail.
+      </p>
+
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/leaderboard">Leaderboard</a>
+        <a href="#how-to-play">How to Play</a>
+      </div>
+
+      <p class="copyright">
+        &copy; <%= new Date().getFullYear() %>
+        Where's Waldo? All rights reserved.
+      </p>
+
+    </div>
+
+  </footer>
+
+</body>
+
+</html>

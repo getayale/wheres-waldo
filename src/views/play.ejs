@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Playing | Where's Waldo?</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="/" class="logo">Where's Waldo?</a>
+
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/leaderboard">Leaderboard</a>
+    </div>
+  </nav>
+
+  <!-- Main Game Container -->
+  <main
+    class="game-page"
+    id="gameContainer"
+    data-game-id="<%= game.id %>"
+    data-started-at="<%= game.startedAt.toISOString() %>"
+    data-game-finished="<%= gameFinished %>"
+    data-game-won="<%= gameWon %>"
+    data-initial-found-count="<%= foundCount %>"
+    data-duration-ms="<%= game.durationMs ?? '' %>"
+  >
+
+    <!-- Game Heading -->
+    <header class="game-header">
+
+      <h1><%= image.title %></h1>
+
+      <p>
+        Find all the hidden characters before time runs out!
+      </p>
+
+    </header>
+
+    <!-- Player Information -->
+    <section class="game-info">
+
+      <div class="game-info-item">
+        <span>Player</span>
+        <strong><%= game.playerName %></strong>
+      </div>
+
+      <div class="game-info-item">
+        <span>Time Remaining</span>
+        <strong id="gameTimer">05:00</strong>
+      </div>
+
+      <div class="game-info-item">
+        <span>Score</span>
+        <strong id="gameScore"><%= score %></strong>
+      </div>
+
+      <div class="game-info-item">
+        <span>Characters Found</span>
+        <strong>
+          <span id="foundCount"><%= foundCount %></span>
+          / <%= totalCharacters %>
+        </strong>
+      </div>
+
+    </section>
+
+    <!-- Characters to Find -->
+    <section class="character-section">
+
+      <h2>Find These Characters</h2>
+
+      <p>
+        Select a character below, then click where you think
+        that character is hiding in the picture.
+      </p>
+
+      <div class="character-list">
+
+        <% image.characters.forEach((item) => { %>
+
+          <% const isFound = game.foundCharacters.some(
+            (found) => found.imageCharacterId === item.id
+          ); %>
+
+          <button
+            type="button"
+            class="character-item <%= isFound ? 'found' : '' %>"
+            data-character-id="<%= item.character.id %>"
+            <%= isFound || gameFinished ? 'disabled' : '' %>
+          >
+            <%= item.character.name %>
+
+            <% if (isFound) { %>
+              ✓
+            <% } %>
+
+          </button>
+
+        <% }) %>
+
+      </div>
+
+    </section>
+
+    <!-- Game Image -->
+    <section class="game-board">
+
+      <div class="game-image-container" id="gameImageContainer">
+
+        <img
+          id="gameImage"
+          src="<%= image.imageUrl %>"
+          alt="<%= image.title %>"
+          class="game-image"
+          draggable="false"
+        >
+
+      </div>
+
+    </section>
+
+    <!-- Game Feedback -->
+    <p id="gameMessage" class="game-message" role="status" aria-live="polite">
+      Select a character and find it in the image!
+    </p>
+
+    <!-- Game Result -->
+    <section
+      id="gameResult"
+      class="game-result"
+      <%= gameFinished ? '' : 'hidden' %>
+    >
+
+      <h2 id="resultTitle">
+        <%= gameWon ? 'Congratulations! You Won!' : 'Game Over!' %>
+      </h2>
+
+      <p id="resultMessage">
+        <%= gameWon
+          ? 'You found all the hidden characters!'
+          : 'Time is up! Better luck next time.' %>
+      </p>
+
+      <div class="result-details">
+
+        <p>
+          Final Score:
+          <strong id="finalScore"><%= score %></strong>
+        </p>
+
+        <p>
+          Completion Time:
+          <strong id="finalTime">
+            <% if (game.durationMs !== null) { %>
+              <% const totalSeconds = Math.floor(game.durationMs / 1000); %>
+              <%= String(Math.floor(totalSeconds / 60)).padStart(2, '0') %>:<%= String(totalSeconds % 60).padStart(2, '0') %>
+            <% } else { %>
+              05:00
+            <% } %>
+          </strong>
+        </p>
+
+      </div>
+
+      <div class="result-actions">
+
+        <a href="/leaderboard" class="challenge-button">
+          View Leaderboard
+        </a>
+
+        <a href="/" class="hero-button">
+          Play Again
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+
+    <div class="footer-content">
+
+      <h3>Where's Waldo?</h3>
+
+      <p>
+        Find hidden characters, earn points,
+        and challenge your observation skills.
+      </p>
+
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/leaderboard">Leaderboard</a>
+      </div>
+
+      <p class="copyright">
+        &copy; <%= new Date().getFullYear() %>
+        Where's Waldo? All rights reserved.
+      </p>
+
+    </div>
+
+  </footer>
+
+  <!-- Compiled TypeScript -->
+  <script src="/js/game.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Stores the game images
+model Image {
+  id           String   @id @default(cuid())
+  title        String
+  imageUrl     String
+  thumbnailUrl String?
+  width        Int
+  height       Int
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  characters   ImageCharacter[]
+  gameSessions GameSession[]
+}
+
+// Stores characters that players must find
+model Character {
+  id   String @id @default(cuid())
+  name String @unique
+
+  images ImageCharacter[]
+}
+
+// Connects characters to images and stores target coordinates
+model ImageCharacter {
+  id          String @id @default(cuid())
+  imageId     String
+  characterId String
+
+  xMin Float
+  yMin Float
+  xMax Float
+  yMax Float
+
+  image     Image     @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  foundInGames FoundCharacter[]
+
+  @@unique([imageId, characterId])
+  @@index([characterId])
+}
+
+// Stores guest players' game sessions
+model GameSession {
+  id          String    @id @default(cuid())
+  playerName  String    @db.VarChar(40)
+  imageId     String
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+  durationMs  Int?
+
+  image          Image           @relation(fields: [imageId], references: [id])
+  foundCharacters FoundCharacter[]
+
+  @@index([imageId])
+  @@index([completedAt, durationMs])
+}
+
+// Tracks characters found during each game
+model FoundCharacter {
+  id              String   @id @default(cuid())
+  gameSessionId   String
+  imageCharacterId String
+  foundAt         DateTime @default(now())
+
+  gameSession   GameSession   @relation(fields: [gameSessionId], references: [id], onDelete: Cascade)
+  imageCharacter ImageCharacter @relation(fields: [imageCharacterId], references: [id], onDelete: Cascade)
+
+  @@unique([gameSessionId, imageCharacterId])
+  @@index([gameSessionId])
+}
